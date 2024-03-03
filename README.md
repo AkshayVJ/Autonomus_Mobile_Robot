@@ -1,4 +1,4 @@
-### Autonomous Mobile Robot Navigation
+# Autonomous Mobile Robot Navigation
 
  For the Mater and slave configuration between laptop and Raspberry Pi Reffer the below link: 
 1. https://github.com/rigbetellabs/tortoisebot/wiki/
@@ -27,14 +27,14 @@
   ```
 ## Usage:
 
-# 1. Manual Keyboard Teleoperation:
+## 1. Manual Keyboard Teleoperation:
 ```bash
 $ roslaunch tortoisebot_gazebo tortoisebot_playground.launch
 // For running gazebo world
 $ roslaunch tortoisebot_control teleop_twist_keyboard.launch
 // For running teleop Keyboard
 ```
-# 2. Map Generation( SLAM Gmapping) :
+## 2. Map Generation( SLAM Gmapping) :
 ```bash
 $ roslaunch tortoisebot_gazebo tortoisebot_playground.launch
 $ roslaunch tortoisebot_control teleop_twist_keyboard.launch
@@ -45,7 +45,7 @@ $ roslaunch tortoisebot_slam view_slam_rviz.launch
 $ roslaunch tortoisebot_slam map_saver.launch map_name:=<give_your_map_name>
 // For saving the generated map
 ```
-# 3. Autonomous Navigation (Simulation):
+## 3. Autonomous Navigation (Simulation):
 ```bash
 $ roslaunch tortoisebot_gazebo tortoisebot_playground.launch
 $ roslaunch tortoisebot_navigation tortoisebot_navigation.launch
@@ -54,7 +54,7 @@ $ roslaunch tortoisebot_navigation view_navigation_rviz.launch
 // For running rviz to visualize the robot navigation
 ```
 
-# 4. Autonomous Navigation (Actual Robot):
+## 4. Autonomous Navigation (Actual Robot):
 ```bash
 $ roscore
 // Run roscore in the Master Laptop PC
