@@ -1,6 +1,6 @@
 # Autonomous Mobile Robot Navigation
 
- For the Mater and slave configuration between laptop and Raspberry Pi Reffer the below link: 
+ For detailed info and configuration settings Reffer the below link from Rigbetel Labs: 
 1. https://github.com/rigbetellabs/tortoisebot/wiki/
 
 ## Installation
