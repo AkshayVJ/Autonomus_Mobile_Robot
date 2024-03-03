@@ -1,6 +1,6 @@
-**Autonomous Mobile Robot Navigation**
+## Autonomous Mobile Robot Navigation
 
-## For the Mater and slave configuration between laptop and Raspberry Pi Reffer the below link: 
+# For the Mater and slave configuration between laptop and Raspberry Pi Reffer the below link: 
 1. https://github.com/rigbetellabs/tortoisebot/wiki/
 
 ## Installation
@@ -27,15 +27,18 @@
   ```
 ## Usage:
 
-1. Manual Keyboard Teleoperation:
+# 1. Manual Keyboard Teleoperation:
 ```bash
-$ roslaunch husky_gazebo husky_playpen.launch
-$ roslaunch my_teleoperation_launcher teleop_keyboard.launch
+$ roslaunch tortoisebot_gazebo tortoisebot_playground.launch
+$ roslaunch tortoisebot_control teleop_twist_keyboard.launch
 ```
-2. Map-Less Navigation:
+# 2. Map Generation( SLAM Gmapping) :
 ```bash
-$ roslaunch cpr_agriculture_gazebo agriculture_world.launch
-$ roslaunch my_navigation_launcher map_less_navigation.launch
+$ roslaunch tortoisebot_gazebo tortoisebot_playground.launch
+$ roslaunch tortoisebot_control teleop_twist_keyboard.launch
+$ roslaunch tortoisebot_slam tortoisebot_gmapping.launch
+$ roslaunch tortoisebot_slam view_slam_rviz.launch
+$ roslaunch tortoisebot_slam map_saver.launch map_name:=<give_your_map_name>
 ```
 3. Map-Based Navigation:
 ```bash
