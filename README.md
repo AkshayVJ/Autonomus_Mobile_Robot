@@ -1,7 +1,7 @@
 **Autonomous Mobile Robot Navigation**
 
-## For Initial setups please reffer: 
-1. https://www.clearpathrobotics.com/assets/guides/kinetic/ros/Drive%20a%20Husky.html
+## For the Mater and slave configuration between laptop and Raspberry Pi Reffer the below link: 
+1. https://github.com/rigbetellabs/tortoisebot/wiki/
 
 ## Installation
 
@@ -15,7 +15,7 @@
   ```
 3. Clone this repository:
   ```bash
-  $ git clone https://github.com/.git
+  $ git clone https://github.com/AkshayVJ/Autonomus_Mobile_Robot.git
   ```
 4. Change directory back to the Catkin workspace:
   ```bash
