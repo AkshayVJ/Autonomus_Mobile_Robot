@@ -2,7 +2,7 @@
 
 <launch>
   <!-- Arguments -->
-  <arg name="map_file" default="playground_map"/>
+  <arg name="map_file" default="my_map"/>
   <arg name="move_forward_only" default="true"/>
   <arg name="exploration" default="false"/>
 

@@ -11,11 +11,11 @@
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
     <!--<node name="differential" pkg="tortoisebot_firmware" type="differential.py" output="screen"/>-->
-	
-	 <include file="$(find tortoisebot_firmware)/launch/rosserial_launcher.launch" />
-	 
-	 <include file="$(find tortoisebot_firmware)/launch/odom_publisher_launcher.launch" />
-	
+
+    <include file="$(find tortoisebot_firmware)/launch/rosserial_launcher.launch" />
+
+    <include file="$(find tortoisebot_firmware)/launch/odom_publisher_launcher.launch" />
+
     <include file="$(find tortoisebot_firmware)/launch/tortoiselidarS2.launch" />
 
     <!--<include file="$(find raspicam_node)/launch/camerav2_410x308_30fps.launch" />-->

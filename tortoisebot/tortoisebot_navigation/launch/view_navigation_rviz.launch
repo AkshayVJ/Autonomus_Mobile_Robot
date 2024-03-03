@@ -2,7 +2,7 @@
 
 <launch>
 
-	<arg default="$(find tortoisebot_slam)/rviz/tortoisebot_navigation.rviz" name="rvizconfig"/>
+	<arg default="$(find tortoisebot_navigation)/rviz/tortoisebot_navigation.rviz" name="rvizconfig"/>
 
 	<node args="-d $(arg rvizconfig)" name="rviz" pkg="rviz" required="true" type="rviz"/>
 

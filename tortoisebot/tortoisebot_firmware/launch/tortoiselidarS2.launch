@@ -16,6 +16,6 @@
         <param name="samp_rate"    type="int"    value="3"/>
         <param name="frequency"    type="double" value="8"/>
         <param name="isSingleChannel" type="bool" value="true"/>
-        <remap from="scan" to="lidar_scan"/>
+        <remap from="scan" to="scan"/>
     </node>
 </launch>
