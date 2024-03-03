@@ -49,9 +49,19 @@ $ roslaunch tortoisebot_slam map_saver.launch map_name:=<give_your_map_name>
 ```bash
 $ roslaunch tortoisebot_gazebo tortoisebot_playground.launch
 $ roslaunch tortoisebot_navigation tortoisebot_navigation.launch
+// For running MoveBase, AMCL ( change the new map name inside launch file)
 $ roslaunch tortoisebot_navigation view_navigation_rviz.launch
+// For running rviz to visualize the robot navigation
 ```
-To save generated map to current working directory, run:
+
+# 4. Autonomous Navigation (Actual Robot):
 ```bash
-$ rosrun map_server map_saver -f <filename>
+$ roscore
+// Run roscore in the Master Laptop PC
+$ roslaunch tortoisebot_firmware bringup.launch
+// Run on the Raspberry pi to bringup the connected sensors and arduino
+$ roslaunch tortoisebot_navigation tortoisebot_navigation.launch
+// For running MoveBase, AMCL ( change the new map name inside launch file)
+$ roslaunch tortoisebot_navigation view_navigation_rviz.launch
+// For running rviz to visualize the robot navigation
 ```
