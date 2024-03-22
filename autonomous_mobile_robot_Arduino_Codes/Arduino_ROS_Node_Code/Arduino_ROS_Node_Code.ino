@@ -1,4 +1,5 @@
 #include <ros.h>
+#include <std_msgs/Int32.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
 
@@ -10,8 +11,10 @@ const uint8_t L_PWM_Pin =  6;
 const uint8_t L_FORW_Pin = 46;
 const uint8_t L_BACK_Pin = 44;
 
-float left_wheel;
-float right_wheel; 
+float left_wheel_direction;
+float right_wheel_direction;
+float left_wheel_speed;
+float right_wheel_speed; 
 
 // Encoder output to Arduino Interrupt pin. Tracks the tick count.
 const int ENC_IN_RIGHT_A = 2;
@@ -20,8 +23,8 @@ const int ENC_IN_RIGHT_B = 4;
 const int ENC_IN_LEFT_B = 5;
 
 // True = Forward; False = Reverse
-boolean Direction_left = true;
-boolean Direction_right = true;
+bool Direction_left = true;
+bool Direction_right = true;
  
 // Minumum and maximum values for 16-bit integers
 const int encoder_minimum = -32768;
@@ -48,46 +51,57 @@ void pin_def()
   // Every time the pin goes high, this is a tick
   attachInterrupt(digitalPinToInterrupt(ENC_IN_LEFT_A), left_wheel_tick, RISING);
   attachInterrupt(digitalPinToInterrupt(ENC_IN_RIGHT_A), right_wheel_tick, RISING);
+
+  // Initializing to Zero
+  analogWrite(R_PWM_Pin, 0);  
+  analogWrite(L_PWM_Pin, 0);   
+  digitalWrite(L_FORW_Pin,0);
+  digitalWrite(L_BACK_Pin,0);
+  digitalWrite(R_FORW_Pin,0);
+  digitalWrite(R_BACK_Pin,0);
  }
- 
-void drive()
-{   
-  if(left_wheel==right_wheel)
+
+void right_vel_cb( const std_msgs::Int32& right_vel_msg)
+{  
+  right_wheel_speed = right_vel_msg.data;  
+  analogWrite(R_PWM_Pin, right_wheel_speed); 
+}
+
+void left_vel_cb( const std_msgs::Int32& left_vel_msg)
+{
+  left_wheel_speed = left_vel_msg.data;
+  analogWrite(L_PWM_Pin, left_wheel_speed); 
+}
+
+void right_dir_cb( const std_msgs::Int32& right_dir_msg)
+{  
+  right_wheel_direction= right_dir_msg.data;
+  if(right_wheel_direction == 0)
   {
-   analogWrite(R_PWM_Pin, 150);  
-   analogWrite(L_PWM_Pin, 150);
+  digitalWrite(R_FORW_Pin,0);
+  digitalWrite(R_BACK_Pin,0);  
   }
-  else   
+  else 
   {
-   analogWrite(R_PWM_Pin, 140);  
-   analogWrite(L_PWM_Pin, 140);    
+  digitalWrite(R_FORW_Pin,right_wheel_direction>0);
+  digitalWrite(R_BACK_Pin,right_wheel_direction<0);  
   }   
-  
-  digitalWrite(L_FORW_Pin,left_wheel > 0);
-  digitalWrite(L_BACK_Pin,left_wheel < 0);
-  digitalWrite(R_FORW_Pin,right_wheel > 0);
-  digitalWrite(R_BACK_Pin,right_wheel < 0);
-  
 }
 
-void stop()
-{   digitalWrite(L_FORW_Pin, 0);
-    digitalWrite(L_BACK_Pin, 0);
-    digitalWrite(R_FORW_Pin, 0);
-    digitalWrite(R_BACK_Pin, 0);
-    digitalWrite(R_PWM_Pin, 0);  
-    digitalWrite(L_PWM_Pin, 0);    
-}
-
-void cmdVel_cb( const geometry_msgs::Twist& velocity_msg){
-
-    left_wheel = (velocity_msg.linear.x - velocity_msg.angular.z ) / 2 ;
-    right_wheel = (velocity_msg.linear.x + velocity_msg.angular.z ) /2 ;
-    drive();
-    if ( velocity_msg.linear.x ==0.0 & velocity_msg.angular.z ==0.0)
-    {
-        stop();
-    }
+void left_dir_cb( const std_msgs::Int32& left_dir_msg)
+{
+  left_wheel_direction = left_dir_msg.data;
+  if(left_wheel_direction == 0)
+  {
+  digitalWrite(L_FORW_Pin,0);
+  digitalWrite(L_BACK_Pin,0);  
+  }
+  else 
+  {
+  digitalWrite(L_FORW_Pin,left_wheel_direction>0);
+  digitalWrite(L_BACK_Pin,left_wheel_direction<0);  
+  } 
+  
 }
 
 // Increment the number of ticks
@@ -159,22 +173,28 @@ ros::NodeHandle nh;
 
 // Keep track of the number of wheel ticks
 std_msgs::Int16 right_wheel_tick_count;
-ros::Publisher rightPub("right_ticks", &right_wheel_tick_count);
+ros::Publisher rightTick("right_ticks", &right_wheel_tick_count);
  
 std_msgs::Int16 left_wheel_tick_count;
-ros::Publisher leftPub("left_ticks", &left_wheel_tick_count);
+ros::Publisher leftTick("left_ticks", &left_wheel_tick_count);
 
-ros::Subscriber<geometry_msgs::Twist> sub("/cmd_vel", &cmdVel_cb );
+ros::Subscriber<std_msgs::Int32> rightVel("right_vel", &right_vel_cb );
+ros::Subscriber<std_msgs::Int32> leftVel("left_vel", &left_vel_cb );
+ros::Subscriber<std_msgs::Int32> rightDir("right_dir", &right_dir_cb );
+ros::Subscriber<std_msgs::Int32> leftDir("left_dir", &left_dir_cb );
  
 void setup() {
 
   pin_def();
-  stop();
   // ROS Setup
   nh.initNode();
-  nh.advertise(rightPub);
-  nh.advertise(leftPub);
-  nh.subscribe(sub);
+  nh.advertise(rightTick);
+  nh.advertise(leftTick);
+  nh.subscribe(rightVel);
+  nh.subscribe(leftVel);
+  nh.subscribe(rightDir);
+  nh.subscribe(leftDir);
+
   delay(2000);
 
 }
@@ -183,8 +203,8 @@ void loop() {
     
     right_wheel_tick_count.data = R_Enc_val ;    
     left_wheel_tick_count.data = L_Enc_val ;
-    rightPub.publish( &right_wheel_tick_count );
-    leftPub.publish( &left_wheel_tick_count );
+    rightTick.publish( &right_wheel_tick_count );
+    leftTick.publish( &left_wheel_tick_count );
     nh.spinOnce();
     delay(10);
 }
