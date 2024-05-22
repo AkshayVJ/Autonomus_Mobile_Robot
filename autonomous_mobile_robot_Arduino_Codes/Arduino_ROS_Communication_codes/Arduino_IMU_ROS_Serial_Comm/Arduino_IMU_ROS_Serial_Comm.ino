@@ -41,8 +41,7 @@ void setup() {
   myIMU.enableLinearAccelerometer(50);
   myIMU.enableGyro(50); 
   nh.advertise(imuPub);
-  // Initialize the data array
-  imu_msg.data_length = 10;
+  imu_msg.data_length = 10;// Initialize the data array
   imu_msg.data = (float*)malloc(sizeof(float) * imu_msg.data_length);
 }
 
