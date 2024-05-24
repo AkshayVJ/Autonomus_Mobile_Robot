@@ -59,7 +59,7 @@ $ roslaunch tortoisebot_navigation view_navigation_rviz.launch
 $ roscore
 // Run roscore in the Master Laptop PC
 $ roslaunch tortoisebot_firmware bringup.launch
-// Run on the Raspberry pi to bringup the connected sensors and arduino
+// Run on the Raspberry pi to bringup the connection between sensors and arduino
 $ roslaunch tortoisebot_navigation tortoisebot_navigation.launch
 // For running MoveBase, AMCL ( change the new map name inside launch file)
 $ roslaunch tortoisebot_navigation view_navigation_rviz.launch
