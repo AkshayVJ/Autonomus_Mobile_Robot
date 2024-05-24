@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+  <node pkg="tortoisebot_firmware" type="imu_publisher.py" name="imu_publisher" output="screen"/>
+  
+</launch>
