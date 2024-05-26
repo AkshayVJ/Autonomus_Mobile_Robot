@@ -65,7 +65,7 @@ $ roslaunch tortoisebot_navigation tortoisebot_navigation.launch
 $ roslaunch tortoisebot_navigation view_navigation_rviz.launch
 // For running rviz to visualize the robot navigation
 
-**Info**
+###Info###
 $ roslaunch robot_localization ekf_local.launch
 Launch Robot Localizatio package for Fusing wheel encoder data with IMU data, update the filtered odometry message in move_base node under tortoisebot_navigation package.  
 ```
