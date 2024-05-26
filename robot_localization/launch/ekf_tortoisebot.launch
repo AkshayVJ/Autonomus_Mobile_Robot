@@ -1,0 +1,26 @@
+<launch>
+
+  <!-- Choose RVIZ -->
+  <arg name="rviz_local"  default="false"/>
+
+  <!-- Publish static transforms (base link to sensor links)-->
+  <!--<include file="$(find robot_localization)/launch/static_tf_publisher.launch"/>-->
+
+  <!-- Publish initial GPS transform (for local map frame setup) -->
+  <!--<include file="$(find robot_localization)/launch/tf_publisher.launch"/>-->
+
+  <!-- Load parameters for dual EKF + navsat_transform nodes -->
+  <rosparam command="load" file="$(find robot_localization)/params/ekf_tortoisebot.yaml" />
+
+  <!-- Launch local EKF node (Odom frame) -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_local"
+        clear_params="true" output="screen">
+    <remap from="odometry/filtered" to="odometry/filtered_local"/>
+  </node>
+
+
+  <!-- RVIZ-->
+  <node if="$(arg rviz_local)" pkg="rviz" type="rviz" name="rviz_local"
+        args="-d $(find robot_localization)/viz/local.rviz"/>
+  
+</launch>

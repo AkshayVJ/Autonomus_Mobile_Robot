@@ -1,0 +1,16 @@
+<launch>
+
+  <!-- Load parameters for EKF Curve Model nodes -->
+  <rosparam command="load" file="$(find robot_localization)/params/ekf_model_straight.yaml" />
+
+  <!-- Straight Model Launch local EKF node (Odom frame) -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_local_straight" clear_params="true" output="screen">
+    <remap from="odometry/filtered" to="odometry/filtered_local_straight"/>
+  </node>
+
+  <!-- Straight Model Launch Global EKF node (Map frame) -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_global_straight" clear_params="true" output="screen">
+    <remap from="odometry/filtered" to="odometry/filtered_global_straight"/>
+  </node>
+
+</launch>
